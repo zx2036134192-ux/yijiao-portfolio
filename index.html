@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>一角随记Snippets · 作品集展示</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+  background: #f8f9fa;
+  color: #333;
+  line-height: 1.6;
+}
+.nav{
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+  border-bottom: 1px solid #eee;
+  padding: 0 40px; height: 60px;
+  display: flex; align-items: center; gap: 32px;
+}
+.nav a{text-decoration:none;color:#666;font-size:14px;font-weight:500;transition:color 0.2s}
+.nav a:hover{color:#000}
+.nav .logo{font-weight:700;font-size:16px;color:#000;margin-right:auto}
+
+.hero{
+  margin-top: 60px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: #fff;
+  padding: 80px 40px 60px;
+  text-align: center;
+}
+.hero h1{font-size:48px;font-weight:700;margin-bottom:12px}
+.hero .tagline{font-size:28px;font-weight:600;margin-bottom:24px;color:#e94560}
+.hero .desc{font-size:16px;color:rgba(255,255,255,0.7);max-width:600px;margin:0 auto 32px;line-height:1.8}
+.hero .meta{display:flex;justify-content:center;gap:32px;font-size:14px;color:rgba(255,255,255,0.5);flex-wrap:wrap}
+.hero .meta span{padding:6px 16px;background:rgba(255,255,255,0.08);border-radius:20px}
+
+.section{padding:64px 40px;max-width:1000px;margin:0 auto}
+.section-title{font-size:28px;font-weight:700;margin-bottom:8px;color:#1a1a2e}
+.section-sub{font-size:15px;color:#999;margin-bottom:40px}
+.alt{background:#fff}
+
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.card{background:#f8f9fa;border-radius:16px;padding:28px;transition:box-shadow 0.2s}
+.card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.06)}
+.card .icon{font-size:32px;margin-bottom:12px}
+.card h3{font-size:17px;font-weight:600;margin-bottom:8px}
+.card p{font-size:14px;color:#666;line-height:1.7}
+
+.timeline{position:relative;padding-left:32px;margin-top:24px}
+.timeline::before{content:'';position:absolute;left:12px;top:0;bottom:0;width:2px;background:#e0e0e0}
+.timeline-item{position:relative;margin-bottom:28px}
+.timeline-item::before{content:'';position:absolute;left:-24px;top:6px;width:10px;height:10px;border-radius:50%;background:#e94560}
+.timeline-item .time{font-size:12px;color:#999;margin-bottom:2px}
+.timeline-item h4{font-size:15px;font-weight:600;color:#1a1a2e;margin-bottom:4px}
+.timeline-item p{font-size:13px;color:#666;line-height:1.6}
+
+.feature-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px}
+.feature-card{background:#fff;border:1px solid #eee;border-radius:12px;padding:24px;text-align:center}
+.feature-card .icon{font-size:36px;margin-bottom:10px}
+.feature-card h4{font-size:15px;font-weight:600;margin-bottom:6px}
+.feature-card p{font-size:13px;color:#666}
+
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:12px;overflow:hidden;border:1px solid #eee;margin-top:16px}
+.compare-side{padding:24px}
+.compare-side.old{background:#fff}
+.compare-side.new{background:#1a1a2e;color:#fff}
+.compare-side h4{font-size:15px;font-weight:600;margin-bottom:12px}
+.compare-side p{font-size:13px;line-height:1.7;margin-bottom:6px}
+.compare-side.old p{color:#666}
+.compare-side.new p{color:rgba(255,255,255,0.8)}
+
+.data-row{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin:24px 0}
+.data-item{text-align:center;padding:20px 32px;background:#fff;border:1px solid #eee;border-radius:12px;min-width:140px}
+.data-item .num{font-size:32px;font-weight:700;color:#e94560}
+.data-item .label{font-size:13px;color:#999;margin-top:4px}
+
+.doc-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.doc-item{display:flex;align-items:center;gap:12px;padding:14px 18px;background:#f8f9fa;border-radius:10px;font-size:13px;color:#555}
+.doc-item .doc-icon{font-size:20px}
+.doc-item .doc-name{font-weight:500;color:#333}
+.doc-item .doc-desc{color:#999;font-size:12px}
+
+/* Phone mockup */
+.phone-mockups{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin:24px 0}
+.phone-frame{width:200px;background:#1a1a2e;border-radius:32px;padding:10px;box-shadow:0 12px 40px rgba(0,0,0,0.2)}
+.phone-frame img{width:100%;border-radius:24px;display:block}
+.phone-label{text-align:center;font-size:12px;color:#999;margin-top:8px}
+
+.footer{text-align:center;padding:40px;color:#999;font-size:13px;border-top:1px solid #eee}
+
+@media (max-width:700px){
+  .hero h1{font-size:32px}
+  .hero .tagline{font-size:20px}
+  .card-grid,.feature-grid,.doc-list{grid-template-columns:1fr}
+  .section{padding:40px 24px}
+  .compare{grid-template-columns:1fr}
+  .phone-frame{width:150px}
+}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="logo">一角随记</div>
+  <a href="#story">故事</a>
+  <a href="#product">产品</a>
+  <a href="#process">流程</a>
+  <a href="#screenshots">截图</a>
+  <a href="#philosophy">哲学</a>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>一角随记Snippets</h1>
+  <div class="tagline">「一个让你随手一丢、有空翻翻、用完就删的碎片收纳盒」</div>
+  <div class="desc">
+    从「我需要一个这样的东西」开始，先写了一个MVP原型，再通过与 Codex 对话讨论推进开发——12轮迭代后上线，现在正在邀请新用户试用。
+  </div>
+  <div class="meta">
+    <span>📱 微信小程序 · 已上线</span>
+    <span>⏱ 5天 · 12轮迭代</span>
+    <span>🤖 想法+指令 → Codex 对话编写</span>
+  </div>
+</div>
+
+<!-- Story -->
+<div class="section" id="story">
+  <div class="section-title">故事的起点</div>
+  <div class="section-sub">一个从「我没有规划、记性不太好」出发的产品</div>
+
+  <div class="card" style="background:#fff5f5;border:1px solid #ffe0e0;border-radius:16px;padding:28px;margin-bottom:32px">
+    <p style="font-size:15px;color:#c0392b;font-style:italic;line-height:1.8">
+      「我是一个没有规划的人，记性也不太好。<br>
+      突发想法记在备忘录，好内容点收藏，灵感发给微信小号……<br>
+      然后，就再也没有然后了。」<br><br>
+      —— 这是产品的起点。不是市场分析，不是用户画像，就是我自己的一句话。
+    </p>
+  </div>
+
+  <div class="data-row">
+    <div class="data-item"><div class="num">4</div><div class="label">记录类型</div></div>
+    <div class="data-item"><div class="num">9</div><div class="label">页面</div></div>
+    <div class="data-item"><div class="num">18</div><div class="label">核心功能(P0)</div></div>
+    <div class="data-item"><div class="num">5天</div><div class="label">从想法到上线</div></div>
+  </div>
+</div>
+
+<!-- Product -->
+<div class="section alt" id="product">
+  <div class="section-title">产品设计</div>
+  <div class="section-sub">不是另一个笔记软件，是一个「消化工具」</div>
+
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="icon">📝</div>
+      <h4>随手一丢</h4>
+      <p>打开即写，无需标题、无需分类、无需格式。想法/链接/照片/笔记四种入口任选</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">👀</div>
+      <h4>缘分浏览</h4>
+      <p>所有记录按时间倒序排列。记新内容时顺手路过旧内容——推动想法自然落地</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🗑️</div>
+      <h4>用过即删</h4>
+      <p>消化完了就左滑删除。没有云端备份的顾虑，数据清空就是真的清空</p>
+    </div>
+  </div>
+
+  <div style="margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:20px">
+    <div class="card">
+      <div class="icon">😊</div>
+      <h3>心情记录</h3>
+      <p>-100~+100 滑杆打分 · 8种表情标记 · 历史心情查看 · 日期筛选</p>
+    </div>
+    <div class="card">
+      <div class="icon">✅</div>
+      <h3>轻量待办</h3>
+      <p>不是每日压力清单，是「这阶段想做的事」。拖拽排序 · 备注展开 · 无提醒</p>
+    </div>
+    <div class="card">
+      <div class="icon">🏷️</div>
+      <h3>标签系统</h3>
+      <p>输入 #标签 自动识别 · 分类筛选 · 全文搜索 · 标签滚动栏</p>
+    </div>
+    <div class="card">
+      <div class="icon">📦</div>
+      <h3>数据自主</h3>
+      <p>全部本地存储 · 无需登录 · 数据导出/导入 · 一键清空（双重确认）</p>
+    </div>
+  </div>
+</div>
+
+<!-- Process -->
+<div class="section" id="process">
+  <div class="section-title">产品全流程</div>
+  <div class="section-sub">从「我自己需要」到「已上线」</div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="time">第0天</div>
+      <h4>🧠 需求发现</h4>
+      <p>从自己的使用痛点出发：备忘录越用越乱、收藏夹再也没打开过、灵感散落四处。先写了一个 MVP 原型验证这个方向。</p>
+    </div>
+    <div class="timeline-item">
+      <div class="time">第1天</div>
+      <h4>📄 需求定义</h4>
+      <p>完成立项文档、PRD、需求分级（P0/P1/P2共36项）。所有文档通过与 Codex 对话讨论推进，一边写一边讨论，迭代完善。</p>
+    </div>
+    <div class="timeline-item">
+      <div class="time">第1-4天</div>
+      <h4>💻 开发落地</h4>
+      <p>微信原生框架，完成9个页面、3388行代码、全部CRUD与交互实现。开发过程基于 Codex 辅助编写代码，通过持续对话驱动功能迭代——我说想法和需求，Codex 出代码，我再调整指令，反复打磨。</p>
+    </div>
+    <div class="timeline-item">
+      <div class="time">第4-5天</div>
+      <h4>🔄 体验迭代</h4>
+      <p>基于自己的真实使用感受，进行了约12轮UI/UX优化：间距、动效、边缘状态、分类筛选、日期修复等。</p>
+    </div>
+    <div class="timeline-item">
+      <div class="time">第5天</div>
+      <h4>🚀 测试上线</h4>
+      <p>真机调试、边界条件测试、审核备注撰写——正式上架微信小程序。</p>
+    </div>
+    <div class="timeline-item">
+      <div class="time">持续</div>
+      <h4>📊 邀请试用</h4>
+      <p>正在邀请新用户进行试用阶段，收集反馈推动下一轮迭代。埋点方案已规划（页面PV/UV + 19个核心行为事件）。</p>
+    </div>
+  </div>
+</div>
+
+<!-- Screenshots -->
+<div class="section alt" id="screenshots">
+  <div class="section-title">页面展示</div>
+  <div class="section-sub">微信中搜索「一角随记」即可体验</div>
+
+  <div class="phone-mockups">
+    <div>
+      <div class="phone-frame">
+        <img src="./IMG_5956.jpg" alt="首页截图">
+      </div>
+      <div class="phone-label">首页 · 记录入口</div>
+    </div>
+    <div>
+      <div class="phone-frame">
+        <img src="./IMG_5957.jpg" alt="心情页截图">
+      </div>
+      <div class="phone-label">心情 · 滑杆+表情</div>
+    </div>
+    <div>
+      <div class="phone-frame">
+        <img src="./IMG_5960.jpg" alt="待办页截图">
+      </div>
+      <div class="phone-label">待办 · 轻量清单</div>
+    </div>
+    <div>
+      <div class="phone-frame">
+        <img src="./IMG_5961.jpg" alt="我的页截图">
+      </div>
+      <div class="phone-label">我的 · 数据管理</div>
+    </div>
+  </div>
+</div>
+
+<!-- Philosophy -->
+<div class="section" id="philosophy">
+  <div class="section-title">产品哲学</div>
+  <div class="section-sub">在所有人教你「存更多」的时候，它教你「消化掉」</div>
+
+  <div class="compare">
+    <div class="compare-side old">
+      <h4 style="color:#666">传统笔记软件</h4>
+      <p>📦 存储即目的</p>
+      <p>📂 分类越细越好</p>
+      <p>♾️ 鼓励永久保留</p>
+      <p>🏋️ 越用越重</p>
+      <p>⚙️ 功能越多越好</p>
+    </div>
+    <div class="compare-side new">
+      <h4 style="color:#e94560">一角随记</h4>
+      <p>🔄 存储是手段，<strong>消化是目的</strong></p>
+      <p>🗑️ 一个筐就够了，#标签只是线索</p>
+      <p>✅ 鼓励<strong>用过即删</strong></p>
+      <p>🍃 越用越轻</p>
+      <p>🎯 功能越少越好</p>
+    </div>
+  </div>
+</div>
+
+<!-- Docs -->
+<div class="section alt">
+  <div class="section-title">产品文档体系</div>
+  <div class="section-sub">过程中产出的完整文档</div>
+
+  <div class="doc-list">
+    <div class="doc-item">
+      <div class="doc-icon">📋</div>
+      <div>
+        <div class="doc-name">01_项目立项文档</div>
+        <div class="doc-desc">背景、痛点、目标用户、竞品分析、产品价值</div>
+      </div>
+    </div>
+    <div class="doc-item">
+      <div class="doc-icon">📑</div>
+      <div>
+        <div class="doc-name">02_需求分级文档</div>
+        <div class="doc-desc">P0/P1/P2共36项需求，逐项定义与哲学对应</div>
+      </div>
+    </div>
+    <div class="doc-item">
+      <div class="doc-icon">📄</div>
+      <div>
+        <div class="doc-name">03_完整PRD文档</div>
+        <div class="doc-desc">产品描述、用户场景、功能详述、数据模型</div>
+      </div>
+    </div>
+    <div class="doc-item">
+      <div class="doc-icon">🔀</div>
+      <div>
+        <div class="doc-name">04_业务流程图</div>
+        <div class="doc-desc">用户操作流程图、页面流转图</div>
+      </div>
+    </div>
+    <div class="doc-item">
+      <div class="doc-icon">📊</div>
+      <div>
+        <div class="doc-name">05_数据埋点方案</div>
+        <div class="doc-desc">页面临点 + 19个核心行为事件埋点</div>
+      </div>
+    </div>
+    <div class="doc-item">
+      <div class="doc-icon">🔄</div>
+      <div>
+        <div class="doc-name">07_项目复盘报告</div>
+        <div class="doc-desc">亮点、问题、优化记录、收获总结</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  一角随记Snippets · 张霞 · 2026
+</div>
+
+</body>
+</html>
